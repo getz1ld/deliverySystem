@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="container">
+    <ul id="accounts">
+
+    </ul>
+    </div>
+    <script>
+
+loadAccounts();
+        async function loadAccounts() {
+        const container = document.getElementById('container');
+        console.log("Attempting to fetch orders..."); // Debug log
+
+        try {
+            const response = await fetch('/receiveAccounts'); 
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const orders = await response.json();
+            console.log("Orders received:", orders); // Check if data is actually here
+
+
+            if (orders.length === 0) {
+                container.innerHTML = '<li>No orders found in database.</li>';
+                return;
+            }
+
+            orders.forEach(order => {
+    const orderRow = document.createElement('li');
+    orderRow.className = 'order order_rows';
+
+    console.log(`order`);
+    orderRow.innerHTML = `
+        <p>${order.username}</p>
+        <p>${order.user_id}</p>
+    `;
+    container.appendChild(orderRow);
+
+    orderRow.addEventListener('click',  () => {
+            console.log(`Order clicked: ${order.order_name} (ID: ${order.order_id})`);
+        window.location.href = `/orders/view/?order_id=${order.order_id}`;
+
+    });
+            });
+        } catch (error) {
+            console.error('Error loading books:', error);
+            container.innerHTML = '<li>Failed to load books.</li>';
+        }
+    }
+    </script>
+</body>
+</html>

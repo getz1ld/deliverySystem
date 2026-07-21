@@ -1,0 +1,82 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    background-color: rgb(214, 214, 214);
+    font-family: "Atkinson Hyperlegible Next", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+.main-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100% - 60px);
+}
+
+#topbar {
+    width: 100%;
+    height: 60px;
+    display: block;
+    background: #440B14;
+    background: linear-gradient(to right, rgb(0, 0, 0) 1%, rgb(143, 19, 37) 50%);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#register {
+    margin-left: calc(100% - 110px);
+    width: 100px;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    color: black;
+    background-color: rgb(255, 255, 255);
+    transition: all 0.3s ease-in-out;
+}
+
+#container, form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 450px;
+    width: 500px;
+    background-color: white;
+    border: none;
+    border-radius: 10px;
+}
+
+h1 {
+    font-size: 3rem;
+}
+
+#container p {
+    text-align: left;
+    margin-right: 290px;
+}
+
+#container input {
+    width: 350px;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    background-color: rgb(226, 226, 226);
+}
+
+#container button {
+    margin-top: 30px;
+    width: 350px;
+    height: 45px;
+    border: none;
+    border-radius: 10px;
+    background-color: rgb(143, 19, 37);
+    color: white;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+#container button:hover {
+    background-color: rgb(243, 59, 75);
+    transform: scale(1.1); 
+}

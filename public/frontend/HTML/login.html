@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="frontend/CSS/login.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&family=DM+Serif+Display:ital@0;1&family=Onest:wght@100..900&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    <title>cvsuAPP</title>
+</head>
+<body>
+    
+    <div id="topbar">
+        <button id="register" type="button">Register</button>
+    </div>
+
+    <main class="main-wrapper">
+    <div id="container">
+
+    <h1>Login</h1>
+
+    <form id="login-form">
+        <p>Username</p>
+        <input type="text" id="user">
+        <p>Password</p>
+        <input type="password" id="pass">
+        <button type="submit">Login</button>
+
+    </form>
+    </div>
+    </div>
+    </main>
+
+    <script>
+        const logform = document.getElementById('login-form');
+        logform.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        console.log("Form submit intercepted");
+
+        const formData = {
+            username: document.getElementById('user').value,
+            pass: document.getElementById('pass').value
+        };
+
+        try {
+            const response = await fetch('/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
+
+            const result = await response.json();
+            
+            if (response.ok) {
+               console.log("Login success, redirecting...");
+               localStorage.setItem('token', result.token);
+                window.location.href = result.redirect;
+            } else {
+                alert(result.message);
+            }
+        } catch (err) {
+            console.error("Fetch failed", err);
+        }
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="frontend/CSS/register.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&family=DM+Serif+Display:ital@0;1&family=Onest:wght@100..900&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    <title>cvsuAPP</title>
+</head>
+<body>
+    
+    <div id="topbar">
+        <a href="/login" id="register">Login</a>
+    </div>
+
+    <main class="main-wrapper">
+    <div id="container">
+
+    <h1>Register</h1>
+
+    <form id="reg-form">
+        <p>Username</p>
+        <input type="text" id="user">
+        <p>Full Name</p>
+        <input type="text" id="fname">
+        <p>Student ID</p>
+        <input type="text" id="student-id">
+        <p>Email Address</p>
+        <input type="text" id="email">
+        <p>Password</p>
+        <input type="password" id="password">
+        <button type="submit" id="register">Register</button>
+
+    </form>
+    </div>
+    </div>
+    </main>
+
+    <script>
+
+        document.getElementById('reg-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const formData = {
+      username: document.getElementById('user').value,
+      fname: document.getElementById('fname').value,
+      student_id: document.getElementById('student-id').value,
+      email: document.getElementById('email').value,
+      pass: document.getElementById('password').value
+    };
+
+    const response = await fetch('/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    });
+
+    const result = await response.json();
+    alert(result.message);
+  });
+
+    </script>
+</body>
+</html>

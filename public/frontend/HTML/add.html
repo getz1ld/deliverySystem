@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <form id="addForm">
+        <p>Username</p>
+        <input type="text" id="username">
+        <p>User ID</p>
+        <input type="text" id="id">
+        <p>Name</p>
+        <input type="text" id="name">
+        <p>Description</p>
+        <input type="text" id="description">
+        <p>Date</p>
+        <input type="text" id="date">
+        <p>Payment Method</p>
+        <select id="pMethod" name="methods">
+  <option value="Cash on Delivery">Cash on Delivery</option>
+  <option value="GCash">GCash</option>
+  <option value="PayMaya">PayMaya</option>
+</select>
+        <p>Status</p>
+        <select id="status">
+  <option value="Shipping">Shipping</option>
+  <option value="Delivered">Delivered</option>
+  <option value="Returned">Returned</option>
+</select>
+
+<button type="submit">Submit</button>
+    </form>
+
+
+
+    <script>
+        const addform = document.getElementById('addForm');
+        addform.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        console.log("Form submit intercepted");
+
+        const formData = {
+            username: document.getElementById('username').value,
+            id: document.getElementById('id').value,
+            name: document.getElementById('name').value,
+            description: document.getElementById('description').value,
+            date: document.getElementById('date').value,
+            paymentMethod: document.getElementById('pMethod').value,
+            status: document.getElementById('status').value
+        };
+
+        try {
+            const response = await fetch('/addOrder', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
+
+            const result = await response.json();
+            
+            if (response.ok) {
+                console.log('Order added')
+            } else {
+                alert(result.message);
+            }
+        } catch (err) {
+            console.error("Fetch failed", err);
+        }
+    });
+        </script>
+</body>
+</html>

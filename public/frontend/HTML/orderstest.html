@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="frontend/CSS/orderstest.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&family=DM+Serif+Display:ital@0;1&family=Onest:wght@100..900&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    <title>cvsuAPP</title>
+
+    <script>
+        const token = localStorage.getItem('token');
+
+if (!token) {
+
+    window.location.href = '/login';
+}
+    </script>
+</head>
+<body>
+    
+
+    
+
+    <div id="top-bar">
+    
+
+        <div id="top-bar-functions">
+            <a href="/dashboard">Home</a>
+            <a href="/home">Orders</a>
+            <a href="/home">Partners</a>
+            <a href="/home">Chats</a>
+            <a href="/home">Overview</a>
+        </div>
+
+        <div id="user">
+            
+            <img src="frontend/img/logos/user (2).png"
+            <p id="username">Username</p>
+
+        </div>
+
+        <div id="user-toggle">
+            <ul id="toggles">
+                <li>Profile</li>
+                <li>Settings</li>
+                <li>Logout</li>
+            </ul>
+    </div>
+
+    </div>
+    
+    <div id="container1">
+
+        <div id="navbar">
+            <a data-action="showAll" id="showall">All</a>
+            <a data-action="toship">To Ship</a>
+            <a data-action="shipping">Shipping</a>
+            <a data-action="received">Received</a>
+            <a data-action="returned">Returned</a>
+        </div>
+
+        <div id="order_list">
+    <table id="lists">
+  <tr>
+    <th class="col-img"></th> <th>Buyer Name</th>
+    <th>Product Name</th>
+    <th>Product Status</th>
+    <th>Payment Method</th>
+  </tr>
+</table>
+</div>
+
+    </div>
+
+    <script>
+
+
+        //For the menu bar visibility when pressed
+        function toggleVisibility() {
+            const element = document.getElementById("menu");
+            const show = document.getElementById("show-menu");
+
+            if (element.style.transform === "translateX(0px)") {
+                element.style.transform = "translateX(-250px)";
+                show.style.transform = "translateX(0px)";
+                setTimeout(() => {
+        element.style.display = "none";
+    }, 500);
+            } else {
+                element.style.display = "flex";
+                requestAnimationFrame(() => {
+        element.style.transform = "translateX(0px)";
+        show.style.transform = "translateX(250px)";
+        element.style.transition = "all 0.5s ease-in-out";
+    });
+            }
+        }
+
+        window.addEventListener('scroll', function() {
+    const topBar = document.getElementById('top-bar');
+    
+    if (window.scrollY > 10) {
+        topBar.classList.add('shrunk');
+    } else {
+        topBar.classList.remove('shrunk');
+    }
+});
+
+/*THIS LOADS ALL THE ORDERS (ALL SECTION)*/
+async function loadShipping() {
+        const container = document.getElementById('lists');
+        console.log("Attempting to fetch orders..."); // Debug log
+
+        try {
+            const response = await fetch('/getAllShipping'); 
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const orders = await response.json();
+            console.log("Orders received:", orders); // Check if data is actually here
+
+            container.innerHTML = ''; // Clear the list
+
+            if (orders.length === 0) {
+                container.innerHTML = '<li>No orders found in database.</li>';
+                return;
+            }
+
+            orders.forEach(order => {
+                const orderItem = document.createElement('li');
+                orderItem.className = 'order';
+
+                orderItem.innerHTML = `
+                    <div id="order_info">
+                    <img src="frontend/img/logos/No_Image_Available.jpg">
+                    <p>${order.order_name}</p>
+                    <p>${order.order_status}</p>
+                    <p>${order.order_paymentMethod}</p>
+                    </div>
+                `;
+                    orderItem.addEventListener('click', () => {
+            console.log(`Book clicked: ${order.order_name} (ID: ${order.order_id})`);
+});
+                container.appendChild(orderItem);
+            });
+        } catch (error) {
+            console.error('Error loading books:', error);
+            container.innerHTML = '<li>Failed to load books.</li>';
+        }
+    }
+
+    /*ALL SHIPPING ORDERS*/
+    async function loadAll() {
+        const container = document.getElementById('lists');
+        console.log("Attempting to fetch orders..."); // Debug log
+
+        try {
+            const response = await fetch('/getAllOrders'); 
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const orders = await response.json();
+            console.log("Orders received:", orders); // Check if data is actually here
+
+
+            if (orders.length === 0) {
+                container.innerHTML = '<li>No orders found in database.</li>';
+                return;
+            }
+
+            orders.forEach(order => {
+    const orderRow = document.createElement('tr');
+    orderRow.className = 'order order_rows';
+
+    // Note: 5 cells to match the 5 <th> elements
+    orderRow.innerHTML = `
+        <td><img src="frontend/img/logos/No_Image_Available.jpg" style="width: 50px;"></td>
+        <td>${order.username}</td>
+        <td>${order.order_name}</td>
+        <td>${order.order_status}</td>
+        <td>${order.order_paymentMethod}</td>
+    `;
+    container.appendChild(orderRow);
+            });
+        } catch (error) {
+            console.error('Error loading books:', error);
+            container.innerHTML = '<li>Failed to load books.</li>';
+        }
+    }
+
+    /*ALL RECEIVED ORDERS*/
+    async function loadReceived() {
+        const container = document.getElementById('lists');
+        console.log("Attempting to fetch orders..."); // Debug log
+
+        try {
+            const response = await fetch('/getAllReceived'); 
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const orders = await response.json();
+            console.log("Orders received:", orders); // Check if data is actually here
+
+            container.innerHTML = ''; // Clear the list
+
+            if (orders.length === 0) {
+                container.innerHTML = '<li>No orders found in database.</li>';
+                return;
+            }
+
+            orders.forEach(order => {
+                const orderItem = document.createElement('li');
+                orderItem.className = 'order';
+
+                orderItem.innerHTML = `
+                    <div id="order_info">
+                    <img src="frontend/img/logos/No_Image_Available.jpg">
+                    <p>${order.order_name}</p>
+                    <p>${order.order_status}</p>
+                    <p>${order.order_paymentMethod}</p>
+                    </div>
+                `;
+                    orderItem.addEventListener('click', () => {
+            console.log(`Book clicked: ${order.order_name} (ID: ${order.order_id})`);
+});
+                container.appendChild(orderItem);
+            });
+        } catch (error) {
+            console.error('Error loading books:', error);
+            container.innerHTML = '<li>Failed to load books.</li>';
+        }
+    }
+
+    async function loadReturned() {
+        const container = document.getElementById('lists');
+        console.log("Attempting to fetch orders..."); // Debug log
+
+        try {
+            const response = await fetch('/getAllReturned'); 
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const orders = await response.json();
+            console.log("Orders received:", orders); // Check if data is actually here
+
+            container.innerHTML = ''; // Clear the list
+
+            if (orders.length === 0) {
+                container.innerHTML = '<li>No orders found in database.</li>';
+                return;
+            }
+
+            orders.forEach(order => {
+                const orderItem = document.createElement('li');
+                orderItem.className = 'order';
+
+                orderItem.innerHTML = `
+                    <div id="order_info">
+                    <img src="frontend/img/logos/No_Image_Available.jpg">
+                    <p>${order.order_name}</p>
+                    <p>${order.order_status}</p>
+                    <p>${order.order_paymentMethod}</p>
+                    </div>
+                `;
+                    orderItem.addEventListener('click', () => {
+            console.log(`Book clicked: ${order.order_name} (ID: ${order.order_id})`);
+});
+                container.appendChild(orderItem);
+            });
+        } catch (error) {
+            console.error('Error loading books:', error);
+            container.innerHTML = '<li>Failed to load books.</li>';
+        }
+    }
+
+    /*THIS IS WHERE THE NAVBAR ACTION IS HAPPENING*/
+document.getElementById('navbar').addEventListener('click', function(event) {
+    const target = event.target;
+    
+    if (target.tagName === 'A' && target.dataset.action) {
+        const allLinks = document.querySelectorAll('#navbar a');
+        allLinks.forEach(link => link.classList.remove('active'));
+
+        // 2. Add 'active' class to the clicked link
+        target.classList.add('active');        
+        const action = target.dataset.action;
+
+        switch(action) {
+            case 'showAll':
+                console.log("Running logic to show all orders...");
+                loadAll();
+                const showall_button = document.getElementById('showall');
+                showall_button.classList.add('hidden-state');
+                break;
+            case 'ship':
+                console.log("Running shipping logic...");
+                break;
+            case 'shipping':
+                console.log("Generating CSV export...");
+                loadShipping();
+                break;
+            case 'received':
+                loadReceived();
+                break;
+            case 'returned':
+                loadReturned();
+                break;
+            default:
+                console.log("Unknown action");
+        }
+    }
+});
+
+    </script>
+</body>
+</html>
