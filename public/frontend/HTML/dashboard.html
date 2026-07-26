@@ -5,27 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="frontend/CSS/dashboard.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&family=DM+Serif+Display:ital@0;1&family=Onest:wght@100..900&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&family=DM+Serif+Display:ital@0;1&family=Onest:wght@100..900&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
     <title>PS Order Hub</title>
 
     <script>
         const token = localStorage.getItem('token');
-
-if (!token) {
-
-    window.location.href = '/login';
-}
+        if (!token) {
+            window.location.href = '/login';
+        }
     </script>
 </head>
 <body>
-    
-
-    
 
     <div id="top-bar">
-    
-
         <div id="top-bar-functions">
             <a href="/dashboard">Home</a>
             <a href="/orders">Orders</a>
@@ -33,44 +26,33 @@ if (!token) {
         </div>
 
         <div id="user">
-            
-            <img src="frontend/img/logos/user (2).png">
+            <img src="frontend/img/logos/user (2).png" id="topbarProfile" alt="User profile image">
             <p id="username"></p>
-
         </div>
-
-
     </div>
     
     <div id="title-text">
-        <img src="frontend/img/logos/dashboard.png">
-    <h1 id="text-dashboard">Dashboard</h1>
+        <img src="frontend/img/logos/dashboard.png" alt="Dashboard icon">
+        <h1 id="text-dashboard">Dashboard</h1>
     </div>
 
     <div id="container">
 
         <div id="infirmary-status" style="grid-area: box-1">
-
             <p id="title">🟢 Status</p>
-            
+            <hr>
             <footer class="infirmary-status-element">
                 <p style="color:black">Total Orders:</p>
                 <p id="total_pending"></p>
             </footer>
         </div>
 
-        <div id="nurse-available" style="grid-area: box-2">
-            <ul id="nurses">
-            <p id="title">Pending Orders</p>
-                <li>
-                    <img src="frontend/img/logos/user (1).png">
-                    <p>Nurse name here</p>
-                </li>
-                <li>
-                    <img src="frontend/img/logos/user (1).png">
-                    <p>Nurse name here</p>
-                </li>
-            </ul>
+        <!-- REPLACED PENDING ORDERS WITH ABOUT US -->
+        <div id="about-us-box" style="grid-area: box-2">
+            <p id="title">ℹ️ About Us</p>
+            <div id="about-content">
+                <p>Welcome to <strong>PS Order Hub</strong>—your reliable platform for streamlined ordering and management. We are dedicated to providing seamless service, efficient tracking, and a smooth user experience tailored to your needs.</p>
+            </div>
         </div>
 
         <div id="patient-info" style="grid-area: box-3">
@@ -78,27 +60,23 @@ if (!token) {
 
             <footer id="patient-info-elements">
                 <p id="user_name"></p>
+                <hr>
                 <p id="email"></p>
+                <hr>
                 <p id="contact"></p>
             </footer>
         </div>
 
         <div id="bmi" style="grid-area: box-4">
-            <img src="frontend/img/logos/fluffy whip.jpg">
+            <img src="frontend/img/logos/fluffy whip.jpg" alt="Fluffy Whip featured image">
             <footer id="image-item">
-            <h2 id="school-title">Fluffy Whip</h2>
+                <h2 id="school-title">Fluffy Whip</h2>
             </footer>
         </div>
 
-
     </div>
 
-     
-
-    
-
     <script>
-
         const orders_clicked = document.getElementById("infirmary-status");
 
         orders_clicked.addEventListener('click', () => {
@@ -115,18 +93,15 @@ if (!token) {
             })
             .then(response => response.json())
             .then(data => {
-                
                 document.getElementById('user_name').textContent = data.username;
                 document.getElementById('email').textContent = data.email;
-                document.getElementById('contact').textContent = data.contact;
+                document.getElementById('contact').textContent = data.contact_number;
 
                 const topBarUsername = document.getElementById('username');
-        if (topBarUsername) {
-            topBarUsername.textContent = data.username || 'User';
-        }
+                if (topBarUsername) {
+                    topBarUsername.textContent = data.username || 'User';
+                }
             })
-
-            
             .catch(error => console.error('Error fetching profile info:', error));
         }
 
@@ -136,49 +111,52 @@ if (!token) {
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById('total_pending').textContent = data.totalOrders;
-                    console.log(data.shippingOrders);
                 })
                 .catch(error => console.error('Error fetching order counts:', error));
         }
 
-        //CVSU Link
         const clickBox = document.getElementById('bmi');
 
         clickBox.addEventListener('click', () => {
             window.open('https://www.cvsu-naic.edu.ph/', '_blank');
         });
 
-        //For the menu bar visibility when pressed
-        function toggleVisibility() {
-            const element = document.getElementById("menu");
-            const show = document.getElementById("show-menu");
-
-            if (element.style.transform === "translateX(0px)") {
-                element.style.transform = "translateX(-250px)";
-                show.style.transform = "translateX(0px)";
-                setTimeout(() => {
-        element.style.display = "none";
-    }, 500);
-            } else {
-                element.style.display = "flex";
-                requestAnimationFrame(() => {
-        element.style.transform = "translateX(0px)";
-        show.style.transform = "translateX(250px)";
-        element.style.transition = "all 0.5s ease-in-out";
-    });
-            }
-        }
-
         window.addEventListener('scroll', function() {
-    const topBar = document.getElementById('top-bar');
-    
-    if (window.scrollY > 10) {
-        topBar.classList.add('shrunk');
-    } else {
-        topBar.classList.remove('shrunk');
+            const topBar = document.getElementById('top-bar');
+            
+            if (window.scrollY > 10) {
+                topBar.classList.add('shrunk');
+            } else {
+                topBar.classList.remove('shrunk');
+            }
+        });
+         loadProfilePictureTopBar();
+        function loadProfilePictureTopBar() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        console.error("No token found. User might not be logged in.");
+        return;
     }
-});
 
+    fetch('/getProfilePicture', {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.img_link) {
+            console.log("Profile image found.");
+            document.querySelector('#topbarProfile').src = data.img_link;
+        } else {
+            console.log("No profile image found, using default.");
+            document.querySelector('#topbarProfile').src = "frontend/img/profile_picture/default_profile.jpg";
+        }
+    })
+    .catch(err => {
+        console.error("Failed to load profile picture", err);
+    });
+}
     </script>
 </body>
 </html>

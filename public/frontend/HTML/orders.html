@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&family=DM+Serif+Display:ital@0;1&family=Onest:wght@100..900&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
-    <title>cvsuAPP</title>
+    <title>Orders | PS Order Hub</title>
 
     <script>
         const token = localStorage.getItem('token');
@@ -25,7 +25,7 @@
             <a href="/profile">Profile</a>
         </div>
         <div id="user">
-            <img src="frontend/img/logos/user (2).png">
+            <img src="frontend/img/logos/user (2).png" id="topbarProfile">
             <p id="username">Username</p>
         </div>
     </div>
@@ -273,6 +273,34 @@
                 else if (action === 'returned') loadReturned();
             }
         });
+
+        loadProfilePictureTopBar();
+        function loadProfilePictureTopBar() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        console.error("No token found. User might not be logged in.");
+        return;
+    }
+
+    fetch('/getProfilePicture', {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.img_link) {
+            console.log("Profile image found.");
+            document.querySelector('#topbarProfile').src = data.img_link;
+        } else {
+            console.log("No profile image found, using default.");
+            document.querySelector('#topbarProfile').src = "frontend/img/profile_picture/default_profile.jpg";
+        }
+    })
+    .catch(err => {
+        console.error("Failed to load profile picture", err);
+    });
+}
     </script>
 </body>
 </html>

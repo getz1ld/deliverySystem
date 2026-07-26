@@ -21,23 +21,23 @@
     <h1>Register</h1>
 
     <form id="reg-form">
-        <p>Username</p>
-        <input type="text" id="user">
+        <p>Username:</p>
+        <input type="text" id="user" placeholder="Enter your username">
 
-        <p>Full Name</p>
-        <input type="text" id="fname">
+        <p>Full Name:</p>
+        <input type="text" id="fname" placeholder="Enter your full name">
 
-        <p>Contact Number</p>
-        <input type="text" id="contact">
+        <p>Contact Number:</p>
+        <input type="text" id="contact" placeholder="Enter your contact number">
 
-        <p>Address</p>
-        <input type="text" id="address">
+        <p>Address:</p>
+        <input type="text" id="address" placeholder="Enter your address">
 
-        <p>Email Address</p>
-        <input type="text" id="email">
+        <p>Email Address:</p>
+        <input type="text" id="email" placeholder="Enter your email address">
 
-        <p>Password</p>
-        <input type="password" id="password">
+        <p>Password:</p>
+        <input type="password" id="password" placeholder="Enter your password">
 
         <button type="submit" id="register">Register</button>
 
@@ -59,6 +59,27 @@
       email: document.getElementById('email').value,
       pass: document.getElementById('password').value
     };
+
+    if (!formData.username || !formData.fname || !formData.contact || !formData.address || !formData.email || !formData.pass) {
+      alert("Please fill in all fields.");
+      return;
+    }
+    if (!/^\d+$/.test(formData.contact)) {
+      alert("Contact number must contain only digits.");
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+    if (formData.pass.length < 6) {
+      alert("Password must be at least 6 characters long.");
+      return;
+    }
+    if (formData.pass.length > 20) {
+      alert("Password must not exceed 20 characters.");
+      return;
+    }
 
     const response = await fetch('/register', {
       method: 'POST',
