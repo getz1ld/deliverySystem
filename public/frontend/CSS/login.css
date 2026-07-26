@@ -1,10 +1,14 @@
-html, body {
-    height: 100%;
-    margin: 0;
-    background-color: rgb(214, 214, 214);
-    font-family: "Atkinson Hyperlegible Next", sans-serif;
-    font-optical-sizing: auto;
-    font-style: normal;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Onest",sans-serif;
+}
+
+body{
+    background:linear-gradient(0deg,#edf7ff,#97ffea);
+    color:#2f2f2f;
+    min-height:100vh;
 }
 
 .main-wrapper {
@@ -12,28 +16,32 @@ html, body {
     justify-content: center;
     align-items: center;
     height: calc(100% - 60px);
+    margin: 50px;
 }
 
 #topbar {
     width: 100%;
     height: 60px;
     display: block;
-    background: #440B14;
-    background: linear-gradient(to right, rgb(0, 0, 0) 1%, rgb(143, 19, 37) 50%);
+    height:75px;
+
+    background:rgb(55, 175, 255);
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
 #register {
-    margin-left: calc(100% - 110px);
+    margin-left: calc(100% - 120px);
     width: 100px;
     height: 40px;
     border: none;
+    font-weight: 600;
     border-radius: 10px;
     color: black;
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(252, 252, 255);
     transition: all 0.3s ease-in-out;
+    cursor: pointer;
 }
 
 #container, form {
@@ -49,11 +57,18 @@ html, body {
 
 h1 {
     font-size: 3rem;
+    margin: 10px;
+    margin-top: 30px;
+    margin-bottom: 70px;
+    text-align: center;
 }
 
 #container p {
     text-align: left;
-    margin-right: 290px;
+    position: relative;
+    left: 0;
+    width: 70%;
+    display:block;
 }
 
 #container input {
@@ -62,6 +77,7 @@ h1 {
     border: none;
     border-radius: 10px;
     background-color: rgb(226, 226, 226);
+    margin: 10px;
 }
 
 #container button {
@@ -70,13 +86,13 @@ h1 {
     height: 45px;
     border: none;
     border-radius: 10px;
-    background-color: rgb(143, 19, 37);
+    background-color: rgb(15, 202, 30);
     color: white;
     transition: all 0.3s ease-in-out;
     cursor: pointer;
 }
 
 #container button:hover {
-    background-color: rgb(243, 59, 75);
+    background-color: rgb(74, 255, 89);
     transform: scale(1.1); 
 }

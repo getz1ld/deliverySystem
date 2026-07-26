@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Profile | Fluffy Whip</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&family=DM+Serif+Display:ital@0;1&family=Onest:wght@100..900&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Onest",sans-serif;
+}
+
+body{
+    background:linear-gradient(0deg,#edf7ff,#97ffea);
+    color:#2f2f2f;
+    min-height:100vh;
+}
+
+/* ================= NAVBAR ================= */
+
+#top-bar{
+    position:sticky;
+    top:0;
+    width:100%;
+    height:75px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:0 60px;
+
+    background:rgb(55, 175, 255);
+    backdrop-filter:blur(5px);
+
+    box-shadow:0 10px 35px rgba(0,0,0,.08);
+
+    z-index:999;
+    transition:.3s;
+}
+
+#top-bar.shrunk {
+    top: 10px;
+    border-radius: 30px;
+    height:60px;
+    transform: scale(0.95);
+    margin-top: 5px;
+    background:rgba(34, 135, 202, 0.521);
+}
+
+#top-bar-functions{
+    display:flex;
+    gap:35px;
+}
+
+#top-bar-functions a{
+    text-decoration:none;
+    color:#ffffff;
+    font-weight:600;
+    transition:.3s;
+}
+
+#top-bar-functions a:hover{
+    color:#374255;
+}
+
+#user{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    cursor:pointer;
+}
+
+#user img{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    object-fit: cover;
+}
+
+#username{
+    font-weight:600;
+    color: #ffffff;
+}
+
+/* Container */
+.container{
+    max-width:1200px;
+    margin:40px auto;
+    display:grid;
+    grid-template-columns:320px 1fr;
+    gap:25px;
+    padding:20px;
+}
+
+/* Cards */
+.card{
+    background:white;
+    border-radius:20px;
+    padding:25px;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+/* Sidebar */
+.sidebar{
+    text-align:center;
+}
+
+.profile-img{
+    width:140px;
+    height:140px;
+    border-radius:50%;
+    object-fit:cover;
+    border:5px solid #ff69b4;
+    margin-bottom:15px;
+}
+
+.sidebar h3{
+    color:#d63384;
+    margin-bottom:5px;
+}
+
+.sidebar p{
+    color:#777;
+    margin-bottom:20px;
+}
+
+.sidebar button{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    border:none;
+    border-radius:30px;
+    cursor:pointer;
+    background:#ff69b4;
+    color:white;
+    font-size:15px;
+}
+
+.logout{
+    background:#dc3545 !important;
+}
+
+/* Profile Form */
+.content h2{
+    color:#d63384;
+    margin-bottom:20px;
+}
+
+label{
+    font-weight:500;
+}
+
+input, textarea{
+    width:100%;
+    padding:12px;
+    margin-top:6px;
+    margin-bottom:15px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    font-size:15px;
+}
+
+textarea{
+    resize:none;
+}
+
+.save-btn{
+    background:#28a745;
+    color:white;
+    border:none;
+    padding:12px 25px;
+    border-radius:30px;
+    cursor:pointer;
+    font-size:15px;
+}
+
+footer{
+    text-align:center;
+    padding:20px;
+    background:#ff69b4;
+    color:white;
+    margin-top:40px;
+}
+
+@media(max-width:900px){
+    .container{
+        grid-template-columns:1fr;
+    }
+    #top-bar {
+        padding: 0 20px;
+    }
+}
+</style>
+
+</head>
+<body>
+
+    <div id="top-bar">
+        <div id="top-bar-functions">
+            <a href="/dashboard">Home</a>
+            <a href="/orders">Orders</a>
+            <a href="/profile">Profile</a>
+        </div>
+
+        <div id="user">
+            <img src="frontend/img/logos/user (2).png" alt="User Avatar">
+            <p id="username"></p>
+        </div>
+    </div>
+
+<div class="container">
+
+<!-- Sidebar -->
+<div class="card sidebar">
+
+<img src="images/default-profile.png" class="profile-img" alt="Profile">
+
+<h3>Juan Dela Cruz</h3>
+
+<p>Customer</p>
+<input type="file" id="mediaInput" accept="image/*" style="display: none;">
+<button onclick="document.getElementById('mediaInput').click()">Change Profile Picture</button>
+
+<button class="logout">Logout</button>
+
+</div>
+
+<!-- Content Form Inputs -->
+<div class="card content">
+
+    <h2>👤 Profile Information</h2>
+
+    <label>Full Name</label>
+    <input type="text" id="fullName">
+
+    <label>Email Address</label>
+    <input type="email" id="email" readonly>
+
+    <label>Contact Number</label>
+    <input type="text" id="contactNumber">
+
+    <label>Delivery Address</label>
+    <textarea rows="3" id="address"></textarea>
+
+    <button class="save-btn" id="saveBtn">Save Changes</button>
+
+</div>
+
+</div>
+
+
+<script>
+const fileInput = data = document.getElementById('mediaInput');
+
+  fileInput.addEventListener('change', async (event) => {
+    const file = event.target.files[0];
+    
+    if (file) {
+      const formData = new FormData();
+            formData.append('profile_img', file);
+
+            try {
+                const response = await fetch('/updateProfilePicture', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: formData
+                });
+
+                const result = await response.json();
+                alert(result.message);
+                loadProfilePicture();
+            } catch (err) {
+                console.error("Upload failed", err);
+                alert("An error occurred while uploading the picture.");
+            }
+        }
+    });
+
+loadProfilePicture();
+function loadProfilePicture() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        console.error("No token found. User might not be logged in.");
+        return;
+    }
+
+    fetch('/getProfilePicture', {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.img_link) {
+            document.querySelector('.profile-img').src = data.img_link;
+        } else {
+            console.log("No profile image found, using default.");
+            document.querySelector('.profile-img').src = "frontend/img/profile_picture/default_profile.jpg";
+        }
+    })
+    .catch(err => {
+        console.error("Failed to load profile picture", err);
+    });
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+    const token = localStorage.getItem("token");
+    
+    if (!token) {
+        window.location.href = "/login";
+        return;
+    }
+
+    try {
+        const response = await fetch("/api/profile", {
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+        
+        if (response.ok) {
+            const user = await response.json();
+            document.getElementById("fullName").value = user["full-name"] || "";
+            document.getElementById("email").value = user.email || "";
+            document.getElementById("contactNumber").value = user.contact_number || "";
+            document.getElementById("address").value = user.address || "";
+            
+            document.querySelector(".sidebar h3").textContent = user["full-name"] || "User";
+            
+            const topBarUsername = document.getElementById('username');
+            if (topBarUsername) {
+                topBarUsername.textContent = user.username || 'User';
+            }
+        } else {
+            alert("Session expired. Please log in again.");
+            window.location.href = "/login";
+        }
+    } catch (err) {
+        console.error("Failed to load profile data", err);
+    }
+
+    document.getElementById("saveBtn").addEventListener("click", async () => {
+        const updatedData = {
+            "full-name": document.getElementById("fullName").value,
+            "contact-number": document.getElementById("contactNumber").value,
+            "address": document.getElementById("address").value
+        };
+
+        try {
+            const res = await fetch("/api/profile", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify(updatedData)
+            });
+
+            const result = await res.json();
+            if (res.ok) {
+                alert(result.message);
+                document.querySelector(".sidebar h3").textContent = updatedData["full-name"];
+            } else {
+                alert(result.message || "Failed to update profile.");
+            }
+        } catch (err) {
+            console.error("Error updating profile", err);
+            alert("An error occurred while saving.");
+        }
+    });
+
+    document.querySelector(".logout").addEventListener("click", () => {
+        localStorage.removeItem("token");
+        window.location.href = "/login";
+    });
+});
+
+window.addEventListener('scroll', function() {
+    const topBar = document.getElementById('top-bar');
+    if (window.scrollY > 10) {
+        topBar.classList.add('shrunk');
+    } else {
+        topBar.classList.remove('shrunk');
+    }
+});
+</script>
+</body>
+</html>

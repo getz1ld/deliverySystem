@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="frontend/CSS/pending.css">
+    <title>Document</title>
+</head>
+<body>
+    <div id="top-bar">
+    
+
+        <div id="top-bar-functions">
+            <a href="/dashboard">Home</a>
+            <a href="/orders">Orders</a>
+            <a href="/home">Chats</a>
+            <a href="/home">Overview</a>
+        </div>
+
+        <div id="user">
+            
+            <img src="frontend/img/logos/user (2).png"
+            <p id="username">Username</p>
+
+        </div>
+
+        </div>
+
+        <div id = "container">
+
+            <table id="pending_orders">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Order Name</th>
+                    <th>Order ID</th>
+                    <th>Buyer</th>
+                    <th>Price</th>
+                    <th>Pieces</th>
+                    <th>Payment Method</th>
+                    <th></th>
+                </tr>
+                </thead>
+
+            </table>
+
+        </div>
+
+        <script>
+            loadPendingOrders(); // Call the function to load pending orders when the page loads
+            async function loadPendingOrders() {
+        const container = document.getElementById('pending_orders');
+        console.log("Attempting to fetch books...");
+
+        try {
+            const response = await fetch('/getPendingOrders'); 
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const pendingOrders = await response.json();
+            console.log("Pending orders received:", pendingOrders);
+
+            container.innerHTML = ''; // Clear the list
+            container.innerHTML = `
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Order Name</th>
+                        <th>Order ID</th>
+                        <th>Buyer</th>
+                        <th>Price</th>
+                        <th>Pieces</th>
+                        <th>Payment Method</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                </tbody>
+            `;
+
+            if (pendingOrders.length === 0) {
+                container.innerHTML = 'No pending orders found.';
+                return;
+            }
+
+            pendingOrders.forEach(order => {
+                const orderItem = document.createElement('tr');
+                orderItem.className = 'order';
+
+                orderItem.innerHTML = `
+                    <td><img src="No_Image_Available.jpg>"></td>
+                    <td>${order.order_name}</td>
+                    <td>${order.order_id}</td>
+                    <td>${order.full_name}</td>
+                    <td>${order.order_price}</td>
+                    <td>${order.order_pieces}</td>
+                    <td>${order.order_paymentMethod}</td>
+                    <td id="button"><button type="button" id="ship_button">Ship</button></td>
+                `;
+                    orderItem.addEventListener('click', () => {
+            console.log(`Order clicked: ${order.order_name} (ID: ${order.order_id})`);
+        window.location.href = `/order_info?order_id=${order.order_id}`;
+});
+    const btn = orderItem.querySelector('#ship_button');
+    btn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        console.log('Pressed');
+    });
+                container.appendChild(orderItem);
+            });
+        } catch (error) {
+            console.error('Error loading pending orders:', error);
+            container.innerHTML = '<li>Failed to load pending orders.</li>';
+        }
+    }
+        </script>
+</body>
+</html>

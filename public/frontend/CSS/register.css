@@ -1,10 +1,14 @@
-html, body {
-    height: 100%;
-    margin: 0;
-    background-color: rgb(214, 214, 214);
-    font-family: "Atkinson Hyperlegible Next", sans-serif;
-    font-optical-sizing: auto;
-    font-style: normal;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Onest",sans-serif;
+}
+
+body{
+    background:linear-gradient(0deg,#edf7ff,#97ffea);
+    color:#2f2f2f;
+    min-height:100vh;
 }
 
 .main-wrapper {
@@ -12,14 +16,16 @@ html, body {
     justify-content: center;
     align-items: center;
     height: calc(100% - 60px);
+    margin: 50px;
 }
 
 #topbar {
     width: 100%;
     height: 60px;
     display: block;
-    background: #440B14;
-    background: linear-gradient(to right, rgb(0, 0, 0) 1%, rgb(143, 19, 37) 50%);
+    height:75px;
+
+    background:rgb(55, 175, 255);
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -42,15 +48,15 @@ html, body {
 
 #container {
     
-    margin-top: 150px;
 }
 
 #container, form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 700px;
+    height: auto;
     width: 500px;
+    padding-bottom: 20px;
     background-color: white;
     border: none;
     border-radius: 10px;
@@ -58,11 +64,13 @@ html, body {
 
 h1 {
     font-size: 3rem;
+    margin-top: 30px;
 }
 
 form {
     width: 353px;
     display: flex;
+    margin-top: 50px;
     flex-direction: column;
     align-items: flex-start;
     text-align: left;
@@ -73,22 +81,23 @@ form {
     width: 340px;
     height: 40px;
     border: none;
+    margin-bottom: 20px;
     border-radius: 10px;
     padding-left: 10px;
     background-color: rgb(226, 226, 226);
 }
 
 #container #register {
-    margin-top: 30px;
+    margin-top: 20px;
+    margin-left: 0;
     width: 350px;
     height: 45px;
     border: none;
     border-radius: 10px;
-    background-color: rgb(143, 19, 37);
+    background-color: rgb(15, 202, 30);
     color: white;
     transition: all 0.3s ease-in-out;
     cursor: pointer;
-    margin-left: 0;
 }
 
 #container button:hover {

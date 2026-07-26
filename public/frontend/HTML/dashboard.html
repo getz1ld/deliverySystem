@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&family=DM+Serif+Display:ital@0;1&family=Onest:wght@100..900&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
-    <title>cvsuAPP</title>
+    <title>PS Order Hub</title>
 
     <script>
         const token = localStorage.getItem('token');
@@ -29,25 +29,16 @@ if (!token) {
         <div id="top-bar-functions">
             <a href="/dashboard">Home</a>
             <a href="/orders">Orders</a>
-            <a href="/home">Partners</a>
-            <a href="/home">Chats</a>
-            <a href="/home">Overview</a>
+            <a href="/profile">Profile</a>
         </div>
 
         <div id="user">
             
-            <img src="frontend/img/logos/user (2).png"
-            <p id="username">Username</p>
+            <img src="frontend/img/logos/user (2).png">
+            <p id="username"></p>
 
         </div>
 
-        <div id="user-toggle">
-            <ul id="toggles">
-                <li>Profile</li>
-                <li>Settings</li>
-                <li>Logout</li>
-            </ul>
-    </div>
 
     </div>
     
@@ -60,11 +51,11 @@ if (!token) {
 
         <div id="infirmary-status" style="grid-area: box-1">
 
-            <p id="title">Status</p>
+            <p id="title">🟢 Status</p>
             
             <footer class="infirmary-status-element">
-                <p style="color:black">Shipping:</p>
-                <p>Status: Open</p>
+                <p style="color:black">Total Orders:</p>
+                <p id="total_pending"></p>
             </footer>
         </div>
 
@@ -83,50 +74,72 @@ if (!token) {
         </div>
 
         <div id="patient-info" style="grid-area: box-3">
-            <p id="title">Patient Info</p>
+            <p id="title">📄 Profile Information</p>
 
             <footer id="patient-info-elements">
-                <img src="frontend/img/logos/user (1).png" id="user-logo">
-                <p>Username</p>
+                <p id="user_name"></p>
+                <p id="email"></p>
+                <p id="contact"></p>
             </footer>
         </div>
 
         <div id="bmi" style="grid-area: box-4">
-            <img src="frontend/img/logos/DQ6fnyG.jpg">
+            <img src="frontend/img/logos/fluffy whip.jpg">
             <footer id="image-item">
-            <p id="school-title">IDK WHAT THE HELL IS THIS</p>
-            <p id="school-description">I runs yall LAST WORD 4 REII LET IT HAUNT LOCAL EMOPS UWU I runs yall LAST WORD 4 REII LET IT HAUNT LOCAL EMOPS UWU I runs yall LAST WORD 4 REII LET IT HAUNT LOCAL EMOPS UWU I runs yall LAST WORD 4 REII LET IT HAUNT LOCAL EMOPS UWU I runs yall LAST WORD 4 REII LET IT HAUNT LOCAL EMOPS UWU </p>
+            <h2 id="school-title">Fluffy Whip</h2>
             </footer>
         </div>
 
-        <div id="health-status" style="grid-area: box-5">
-
-        </div>
 
     </div>
 
      
 
-    <div id="container2">
-<div id="title-services">
-        
-        <img src="frontend/img/logos/customer-review.png">
-    <h1 id="text-dashboard">Services</h1>
-    </div>
-        <div id="features">
-            <div id="feature1">
-                <p>Medicine</p>
-            </div>
-
-            <div id="feature2">
-                <p>Chat with Us!</p>
-            </div>
-        </div>
-
-    </div>
+    
 
     <script>
-        
+
+        const orders_clicked = document.getElementById("infirmary-status");
+
+        orders_clicked.addEventListener('click', () => {
+            window.location.href = '/orders';
+        });
+
+        loadProfileInfo();
+        function loadProfileInfo() {
+            fetch('/getProfileInfo', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                
+                document.getElementById('user_name').textContent = data.username;
+                document.getElementById('email').textContent = data.email;
+                document.getElementById('contact').textContent = data.contact;
+
+                const topBarUsername = document.getElementById('username');
+        if (topBarUsername) {
+            topBarUsername.textContent = data.username || 'User';
+        }
+            })
+
+            
+            .catch(error => console.error('Error fetching profile info:', error));
+        }
+
+        loadPendingOrders()
+        function loadPendingOrders() {
+            fetch('/getOrderCount')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('total_pending').textContent = data.totalOrders;
+                    console.log(data.shippingOrders);
+                })
+                .catch(error => console.error('Error fetching order counts:', error));
+        }
 
         //CVSU Link
         const clickBox = document.getElementById('bmi');

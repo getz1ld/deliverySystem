@@ -12,7 +12,7 @@
 <body>
     
     <div id="topbar">
-        <button id="register" type="button">Register</button>
+    <button id="register" type="button" onclick="window.location.href='/register'">Register</button>
     </div>
 
     <main class="main-wrapper">
@@ -21,9 +21,9 @@
     <h1>Login</h1>
 
     <form id="login-form">
-        <p>Username</p>
+        <p>Email:</p>
         <input type="text" id="user">
-        <p>Password</p>
+        <p>Password:</p>
         <input type="password" id="pass">
         <button type="submit">Login</button>
 
@@ -39,7 +39,7 @@
         console.log("Form submit intercepted");
 
         const formData = {
-            username: document.getElementById('user').value,
+            email: document.getElementById('user').value,
             pass: document.getElementById('pass').value
         };
 

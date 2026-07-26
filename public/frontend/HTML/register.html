@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&family=DM+Serif+Display:ital@0;1&family=Onest:wght@100..900&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
-    <title>cvsuAPP</title>
+    <title>PS Order Hub</title>
 </head>
 <body>
     
@@ -23,14 +23,22 @@
     <form id="reg-form">
         <p>Username</p>
         <input type="text" id="user">
+
         <p>Full Name</p>
         <input type="text" id="fname">
-        <p>Student ID</p>
-        <input type="text" id="student-id">
+
+        <p>Contact Number</p>
+        <input type="text" id="contact">
+
+        <p>Address</p>
+        <input type="text" id="address">
+
         <p>Email Address</p>
         <input type="text" id="email">
+
         <p>Password</p>
         <input type="password" id="password">
+
         <button type="submit" id="register">Register</button>
 
     </form>
@@ -46,7 +54,8 @@
     const formData = {
       username: document.getElementById('user').value,
       fname: document.getElementById('fname').value,
-      student_id: document.getElementById('student-id').value,
+      contact: document.getElementById('contact').value,
+      address: document.getElementById('address').value,
       email: document.getElementById('email').value,
       pass: document.getElementById('password').value
     };
